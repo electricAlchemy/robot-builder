@@ -1,19 +1,18 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <RobotBuilder msg="Welcome to the Robot Builder"/>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import RobotBuilder from './components/RobotBuilder.vue';
 
 export default {
   name: 'app',
   components: {
-    HelloWorld
-  }
-}
+    RobotBuilder,
+  },
+};
 </script>
 
 <style lang="scss">
