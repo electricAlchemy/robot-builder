@@ -1,17 +1,17 @@
 <template>
-  <div class="part">
-    <img :src="selectedPart.src" title="arm"/>
-    <button @click="selectPreviousPart()" class="prev-selector"></button>
-    <button @click="selectNextPart()" class="next-selector"></button>
-    <span class="sale" v-show="selectedPart.onSale">Sale!</span>
+  <div>
+    <div v-if="parts[0]['type'] === 'heads'">
+        <h3 class="robot-name">{{selectedPart.title}}</h3>
+    </div>
+    <div class="part" :class="position">
+      <img :src="selectedPart.src" title="arm"/>
+      <button @click="selectPreviousPart()" class="prev-selector"></button>
+      <button @click="selectNextPart()" class="next-selector"></button>
+    </div>
   </div>
 </template>
 
 <script>
-import availableParts from '../data/parts';
-
-const parts = availableParts.heads;
-
 function getPreviousValidIndex(index, length) {
   const deprecatedIndex = index - 1;
   return deprecatedIndex < 0 ? length - 1 : deprecatedIndex;
@@ -23,25 +23,41 @@ function getNextValidIndex(index, length) {
 }
 
 export default {
+  props: { 
+    parts: { 
+      type: Array, 
+      required: true,
+    },
+    position: { 
+      type: String, 
+      required: true,
+      validator(value){
+        return ['left', 'right', 'top', 'bottom', 'center'].includes(value);
+      }
+    },
+  },
+  created(){
+    return setTimeout( () => console.log('parts', this.parts), 1000)
+  },
   data() {
     return { selectedPartIndex: 0 };
   },
   computed: {
     selectedPart() {
-      return parts[this.selectedPartIndex];
+      return this.parts[this.selectedPartIndex];
     },
   },
   methods: {
     selectNextPart() {
       this.selectedPartIndex = getNextValidIndex(
         this.selectedPartIndex,
-        parts.length,
+        this.parts.length,
       );
     },
     selectPreviousPart() {
       this.selectedPartIndex = getPreviousValidIndex(
         this.selectedPartIndex,
-        parts.length,
+        this.parts.length,
       );
     },
 
@@ -51,6 +67,10 @@ export default {
 </script>
 
 <style scoped>
+.robot-name{
+  text-align: center;
+  margin-left: -2%;
+}
 .part {
   position: relative;
   width:165px;
