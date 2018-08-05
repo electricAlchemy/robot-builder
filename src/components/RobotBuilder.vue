@@ -3,32 +3,33 @@
     <h1>{{ msg }}</h1>
     <div style="padding-top: 2%">
       <div class="preview">
-        <div class="preview-content">
-          <div class="top-row">
-            <img :src="selectedRobot.head.src"/>
+        <CollapsibleSection>
+          <div class="preview-content">
+            <div class="top-row">
+              <img :src="selectedRobot.head.src"/>
+            </div>
+            <div class="middle-row">
+              <img :src="selectedRobot.leftArm.src" class="rotate-left"/>
+              <img :src="selectedRobot.torso.src"/>
+              <img :src="selectedRobot.rightArm.src" class="rotate-right"/>
+            </div>
+            <div class="bottom-row">
+              <img :src="selectedRobot.base.src"/>
+            </div>
           </div>
-          <div class="middle-row">
-            <img :src="selectedRobot.leftArm.src" class="rotate-left"/>
-            <img :src="selectedRobot.torso.src"/>
-            <img :src="selectedRobot.rightArm.src" class="rotate-right"/>
-          </div>
-          <div class="bottom-row">
-            <img :src="selectedRobot.base.src"/>
-          </div>
-        </div>
+        </CollapsibleSection>
       </div>
       <div class="top-row">
         <PartSelector :parts="availableParts.heads"
                       position="top"
                       @partSelected="part => selectedRobot.head=part"
-          />
+        />
         </div>
       </div>
       <div class="middle-row">
         <PartSelector :parts="availableParts.arms" 
                       position="left"
                       @partSelected="part => selectedRobot.leftArm=part"
-
         />
         <PartSelector :parts="availableParts.torsos" 
                       position="center"
@@ -52,10 +53,11 @@
 import availableParts from '../data/parts';
 import createdHook from '../mixins/created-hook-mixin';
 import PartSelector from './PartSelector.vue';
+import CollapsibleSection from '../components/CollapsibleSection';
 
 export default {
   name: 'Robot-Builder',
-  components: { PartSelector },
+  components: { PartSelector, CollapsibleSection },
   mixins: [createdHook],
   data() {
     return {

@@ -39,6 +39,9 @@ export default {
   created(){
     this.emitSelectedPart();
   },
+  updated(){
+    this.emitSelectedPart();
+  },
   data() {
     return { selectedPartIndex: 0 };
   },
@@ -49,7 +52,6 @@ export default {
   },
   methods: {
     emitSelectedPart() {
-      console.log('this.selectedPart.src in child', this.selectedPart.src)
       return this.$emit('partSelected', this.selectedPart);
     },
     selectNextPart() {
@@ -57,14 +59,12 @@ export default {
         this.selectedPartIndex,
         this.parts.length,
       );
-      this.emitSelectedPart();
     },
     selectPreviousPart() {
       this.selectedPartIndex = getPreviousValidIndex(
         this.selectedPartIndex,
         this.parts.length,
       );
-      this.emitSelectedPart();
     },
 
   },
