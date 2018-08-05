@@ -2,30 +2,49 @@
   <div>
     <h1>{{ msg }}</h1>
     <div style="padding-top: 2%">
-    <div class="top-row">
-        <!-- <div class="robot-name">{{selectedRobot.head.title}}</div>
-        <img v-bind:src="selectedRobot.head.src" title="head"/> -->
-       <PartSelector :parts="availableParts.heads"
-                     position="top"
+      <div class="preview">
+        <div class="preview-content">
+          <div class="top-row">
+            <img :src="selectedRobot.head.src"/>
+          </div>
+          <div class="middle-row">
+            <img :src="selectedRobot.leftArm.src" class="rotate-left"/>
+            <img :src="selectedRobot.torso.src"/>
+            <img :src="selectedRobot.rightArm.src" class="rotate-right"/>
+          </div>
+          <div class="bottom-row">
+            <img :src="selectedRobot.base.src"/>
+          </div>
+        </div>
+      </div>
+      <div class="top-row">
+        <PartSelector :parts="availableParts.heads"
+                      position="top"
+                      @partSelected="part => selectedRobot.head=part"
+          />
+        </div>
+      </div>
+      <div class="middle-row">
+        <PartSelector :parts="availableParts.arms" 
+                      position="left"
+                      @partSelected="part => selectedRobot.leftArm=part"
+
+        />
+        <PartSelector :parts="availableParts.torsos" 
+                      position="center"
+                      @partSelected="part => selectedRobot.torso=part"
+        />
+        <PartSelector :parts="availableParts.arms" 
+                      position="right"
+                      @partSelected="part => selectedRobot.rightArm=part"
         />
       </div>
-    </div>
-    <div class="middle-row">
-      <PartSelector :parts="availableParts.arms" 
-                    position="left"
-      />
-      <PartSelector :parts="availableParts.torsos" 
-                    position="center"
-      />
-      <PartSelector :parts="availableParts.arms" 
-                    position="right"
-      />
-    </div>
-    <div class="bottom-row">
-      <PartSelector :parts="availableParts.bases"
-                    position="bottom"
-      />
-    </div>
+      <div class="bottom-row">
+        <PartSelector :parts="availableParts.bases"
+                      position="bottom"
+                      @partSelected="part => selectedRobot.base=part"
+        />
+      </div>
   </div>
 </template>
 
@@ -41,18 +60,16 @@ export default {
   data() {
     return {
       availableParts,
-    };
-  },
-  computed: {
-    selectedRobot(){
-      return {
+      selectedRobot: { 
         head: {},
         leftArm: {},
         torso: {},
         rightArm: {},
         base: {},
       }
-    }
+    };
+  },
+  computed: {
   },
   methods: {
   },
@@ -61,9 +78,31 @@ export default {
   },
 };
 </script>
-
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
+
+/****robot builder preview*****/
+.preview {
+  position: absolute;
+  right: 20%;
+  width: 210px;
+  height: 210px;
+  padding: 5px;
+}
+.preview-content {
+  border: 1px solid #999;
+}
+.preview img {
+  width: 50px;
+  height: 50px;
+}
+.rotate-right {
+  transform: rotate(90deg);
+}
+.rotate-left {
+  transform: rotate(-90deg);
+}
+/***********end robot builder preview css ******/
 h3 {
   margin: 40px 0 0;
 }

@@ -37,7 +37,7 @@ export default {
     },
   },
   created(){
-    return setTimeout( () => console.log('parts', this.parts), 1000)
+    this.emitSelectedPart();
   },
   data() {
     return { selectedPartIndex: 0 };
@@ -48,17 +48,23 @@ export default {
     },
   },
   methods: {
+    emitSelectedPart() {
+      console.log('this.selectedPart.src in child', this.selectedPart.src)
+      return this.$emit('partSelected', this.selectedPart);
+    },
     selectNextPart() {
       this.selectedPartIndex = getNextValidIndex(
         this.selectedPartIndex,
         this.parts.length,
       );
+      this.emitSelectedPart();
     },
     selectPreviousPart() {
       this.selectedPartIndex = getPreviousValidIndex(
         this.selectedPartIndex,
         this.parts.length,
       );
+      this.emitSelectedPart();
     },
 
   },
